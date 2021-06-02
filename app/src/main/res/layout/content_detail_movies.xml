@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_movies"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:descendantFocusability="blocksDescendants"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <ImageView
+        android:id="@+id/img_poster_movies"
+        android:layout_width="200dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="18dp"
+        android:src="@color/teal_200"
+        android:layout_marginStart="18dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/placeholder_judul"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/title_holder"
+        app:layout_constraintStart_toEndOf="@+id/img_poster_movies"
+        app:layout_constraintTop_toTopOf="@+id/img_poster_movies" />
+
+    <TextView
+        android:id="@+id/text_title_movies"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="@string/title"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/placeholder_judul"
+        app:layout_constraintTop_toBottomOf="@+id/placeholder_judul" />
+
+    <TextView
+        android:id="@+id/placeholder_director"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/director_holder"
+        app:layout_constraintBottom_toBottomOf="@+id/img_poster_movies"
+        app:layout_constraintStart_toEndOf="@+id/img_poster_movies"
+        app:layout_constraintTop_toTopOf="@+id/img_poster_movies" />
+
+    <TextView
+        android:id="@+id/tv_director"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/director"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toStartOf="@+id/placeholder_director"
+        app:layout_constraintTop_toBottomOf="@+id/placeholder_director" />
+
+    <TextView
+        android:id="@+id/placeholder_genre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/genre_holder"
+        app:layout_constraintBottom_toBottomOf="@+id/img_poster_movies"
+        app:layout_constraintStart_toEndOf="@+id/img_poster_movies"
+        app:layout_constraintTop_toTopOf="@+id/img_poster_movies"
+        app:layout_constraintVertical_bias="0.809" />
+
+    <TextView
+        android:id="@+id/tv_genre_movies"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:text="@string/genre"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/img_poster_movies"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/placeholder_genre" />
+
+    <TextView
+        android:id="@+id/placeholder_overview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/overview_holder"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/img_poster_movies"
+        app:layout_constraintTop_toBottomOf="@+id/img_poster_movies" />
+
+    <TextView
+        android:id="@+id/tv_overview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/overview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/placeholder_overview"
+        app:layout_constraintTop_toBottomOf="@+id/placeholder_overview" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
