@@ -6,6 +6,7 @@ import com.example.abdl.mymoviecatalogue.data.source.local.entity.MoviesEntity
 import com.example.abdl.mymoviecatalogue.data.source.local.entity.TvShowEntity
 import com.example.abdl.mymoviecatalogue.data.source.remote.response.MovieResponse
 import com.example.abdl.mymoviecatalogue.data.source.remote.response.TvShowResponse
+import com.example.abdl.mymoviecatalogue.utils.EspressoIdlingResource
 import com.example.abdl.mymoviecatalogue.utils.JsonHelper
 
 open class RemoteDataSource private constructor(private val jsonHelper: JsonHelper){
@@ -25,11 +26,17 @@ open class RemoteDataSource private constructor(private val jsonHelper: JsonHelp
     }
 
     fun getAllMovies(callback: LoadMoviesCallback){
-        handler.postDelayed({callback.onAllMoviesReceived(jsonHelper.loadMovies())}, SERVICE_LATENCY_IN_MILLIS)
+        EspressoIdlingResource.increment()
+        handler.postDelayed({callback.onAllMoviesReceived(jsonHelper.loadMovies())
+                            EspressoIdlingResource.decrement()
+                            }, SERVICE_LATENCY_IN_MILLIS)
     }
 
     fun getAllTvShows(callback: LoadTvShowCallback){
-        handler.postDelayed({callback.onAllTvShowReceived(jsonHelper.loadTvShows())}, SERVICE_LATENCY_IN_MILLIS)
+        EspressoIdlingResource.increment()
+        handler.postDelayed({callback.onAllTvShowReceived(jsonHelper.loadTvShows())
+                            EspressoIdlingResource.decrement()
+                            }, SERVICE_LATENCY_IN_MILLIS)
     }
 
     interface LoadMoviesCallback{
