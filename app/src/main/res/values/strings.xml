@@ -29,4 +29,5 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_favorites">My Favorites</string>
+    <string name="spalsh_screen">splash screen</string>
 </resources>

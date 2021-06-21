@@ -39,7 +39,6 @@ class MoviesFavoriteFragment : Fragment() {
 
             with(fragmentMoviesFavoriteBinding.rvFavMovies){
                 layoutManager = LinearLayoutManager(context)
-                setHasFixedSize(true)
                 this.adapter = moviesAdapter
             }
         }

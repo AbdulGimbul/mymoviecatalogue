@@ -52,7 +52,6 @@ class TvShowFragment : Fragment() {
 
             with(fragmentTvShowBinding?.rvTvshow){
                 this?.layoutManager = LinearLayoutManager(context)
-                this?.setHasFixedSize(true)
                 this?.adapter = tvShowAdapter
             }
         }
