@@ -1,10 +1,10 @@
 package com.example.abdl.mymoviecatalogue
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import com.example.abdl.mymoviecatalogue.ui.home.HomeActivity
 
 @Suppress("DEPRECATION")

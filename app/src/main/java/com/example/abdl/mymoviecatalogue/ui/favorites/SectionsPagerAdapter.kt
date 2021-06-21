@@ -1,4 +1,4 @@
-package com.example.abdl.mymoviecatalogue.ui.home
+package com.example.abdl.mymoviecatalogue.ui.favorites
 
 import android.content.Context
 import androidx.annotation.StringRes
@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.abdl.mymoviecatalogue.R
-import com.example.abdl.mymoviecatalogue.ui.movies.MoviesFragment
-import com.example.abdl.mymoviecatalogue.ui.tvshow.TvShowFragment
+import com.example.abdl.mymoviecatalogue.ui.favorites.movies.MoviesFavoriteFragment
+import com.example.abdl.mymoviecatalogue.ui.favorites.tvshow.TvShowFavoriteFragment
 
 class SectionsPagerAdapter(private val mContext: Context, fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     companion object{
@@ -17,8 +17,8 @@ class SectionsPagerAdapter(private val mContext: Context, fm: FragmentManager) :
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> MoviesFragment()
-            1 -> TvShowFragment()
+            0 -> MoviesFavoriteFragment()
+            1 -> TvShowFavoriteFragment()
             else -> Fragment()
         }
     }
