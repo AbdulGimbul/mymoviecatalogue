@@ -19,9 +19,6 @@ import com.example.abdl.mymoviecatalogue.viewmodel.ViewModelFactory
 import com.example.abdl.mymoviecatalogue.vo.Status
 
 class DetailMoviesActivity : AppCompatActivity() {
-    companion object{
-        const val EXTRA_MOVIES = "extra_movies"
-    }
 
     private lateinit var activityDetailMoviesBinding: ActivityDetailMoviesBinding
     private lateinit var detailMoviesBinding: ContentDetailMoviesBinding
@@ -44,9 +41,9 @@ class DetailMoviesActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this, factory)[DetailFilmCatalogueViewModel::class.java]
 
         val extras = intent.extras
-        if (extras != null){
+        if (extras != null) {
             val moviesId = extras.getString(EXTRA_MOVIES)
-            if (moviesId != null){
+            if (moviesId != null) {
                 viewModel.setSelectedMovies(moviesId)
 
                 viewModel.moviesData.observe(this, { moviesWithIdResource ->
@@ -73,17 +70,19 @@ class DetailMoviesActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.detail_menu, menu)
         this.menu = menu
         viewModel.moviesData.observe(this, { movies ->
-            if (movies != null){
-                when(movies.status){
-                    Status.LOADING -> activityDetailMoviesBinding.progressBar.visibility = View.VISIBLE
-                    Status.SUCCESS -> if (movies.data != null){
+            if (movies != null) {
+                when (movies.status) {
+                    Status.LOADING -> activityDetailMoviesBinding.progressBar.visibility =
+                        View.VISIBLE
+                    Status.SUCCESS -> if (movies.data != null) {
                         activityDetailMoviesBinding.progressBar.visibility = View.GONE
                         val state = movies.data.favorited
                         setFavoriteState(state)
                     }
                     Status.ERROR -> {
                         activityDetailMoviesBinding.progressBar.visibility = View.GONE
-                        Toast.makeText(applicationContext, "Terjadi kesalahan", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext, "Terjadi kesalahan", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }
@@ -92,24 +91,25 @@ class DetailMoviesActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_fav){
+        if (item.itemId == R.id.action_fav) {
             viewModel.setFavoriteMovies()
             return true
         }
         return super.onOptionsItemSelected(item)
     }
 
-    private fun setFavoriteState(state: Boolean){
+    private fun setFavoriteState(state: Boolean) {
         if (state == null) return
-            val menuItem = menu?.findItem(R.id.action_fav)
-        if (state){
+        val menuItem = menu?.findItem(R.id.action_fav)
+        if (state) {
             menuItem?.icon = ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_24)
         } else {
-            menuItem?.icon = ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_border_24)
+            menuItem?.icon =
+                ContextCompat.getDrawable(this, R.drawable.ic_baseline_favorite_border_24)
         }
     }
 
-    private fun populateMovies(moviesEntity: MoviesEntity){
+    private fun populateMovies(moviesEntity: MoviesEntity) {
         detailMoviesBinding.textTitleMovies.text = moviesEntity.title
         detailMoviesBinding.tvDirector.text = moviesEntity.director
         detailMoviesBinding.tvGenreMovies.text = moviesEntity.genre
@@ -118,7 +118,11 @@ class DetailMoviesActivity : AppCompatActivity() {
         Glide.with(this)
             .load(moviesEntity.image)
             .transform(RoundedCorners(5))
-            .apply(RequestOptions().override(55,55))
+            .apply(RequestOptions().override(55, 55))
             .into(detailMoviesBinding.imgPosterMovies)
+    }
+
+    companion object {
+        const val EXTRA_MOVIES = "extra_movies"
     }
 }

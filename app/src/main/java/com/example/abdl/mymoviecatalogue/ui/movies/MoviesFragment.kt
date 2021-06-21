@@ -12,21 +12,21 @@ import com.example.abdl.mymoviecatalogue.databinding.FragmentMoviesBinding
 import com.example.abdl.mymoviecatalogue.viewmodel.ViewModelFactory
 import com.example.abdl.mymoviecatalogue.vo.Status
 
-class MoviesFragment : Fragment(){
+class MoviesFragment : Fragment() {
     private lateinit var fragmentMoviesBinding: FragmentMoviesBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         fragmentMoviesBinding = FragmentMoviesBinding.inflate(layoutInflater, container, false)
         return fragmentMoviesBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (activity != null){
+        if (activity != null) {
 
             val factory = ViewModelFactory.getInstance(requireActivity())
             val viewModel = ViewModelProvider(this, factory)[MoviesViewModel::class.java]
@@ -34,9 +34,10 @@ class MoviesFragment : Fragment(){
             val moviesAdapter = MoviesAdapter()
 
             viewModel.getMovies().observe(viewLifecycleOwner, { movies ->
-                if (movies != null){
-                    when (movies.status){
-                        Status.LOADING -> fragmentMoviesBinding?.progressBar?.visibility = View.VISIBLE
+                if (movies != null) {
+                    when (movies.status) {
+                        Status.LOADING -> fragmentMoviesBinding?.progressBar?.visibility =
+                            View.VISIBLE
                         Status.SUCCESS -> {
                             fragmentMoviesBinding?.progressBar?.visibility = View.GONE
                             moviesAdapter.submitList(movies.data)
@@ -49,7 +50,7 @@ class MoviesFragment : Fragment(){
                 }
             })
 
-            with(fragmentMoviesBinding?.rvMovies){
+            with(fragmentMoviesBinding?.rvMovies) {
                 this?.layoutManager = LinearLayoutManager(context)
                 this?.adapter = moviesAdapter
             }

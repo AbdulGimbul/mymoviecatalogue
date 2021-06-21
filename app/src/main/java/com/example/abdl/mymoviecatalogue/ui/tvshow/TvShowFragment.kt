@@ -19,7 +19,7 @@ class TvShowFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         fragmentTvShowBinding = FragmentTvShowBinding.inflate(layoutInflater, container, false)
         return fragmentTvShowBinding.root
     }
@@ -34,9 +34,10 @@ class TvShowFragment : Fragment() {
             val tvShowAdapter = TvShowAdapter()
 
             viewModel.getTvShow().observe(viewLifecycleOwner, { tvshow ->
-                if (tvshow != null){
-                    when (tvshow.status){
-                        Status.LOADING -> fragmentTvShowBinding?.progressBar?.visibility = View.VISIBLE
+                if (tvshow != null) {
+                    when (tvshow.status) {
+                        Status.LOADING -> fragmentTvShowBinding?.progressBar?.visibility =
+                            View.VISIBLE
                         Status.SUCCESS -> {
                             fragmentTvShowBinding?.progressBar?.visibility = View.GONE
                             tvShowAdapter.submitList(tvshow.data)
@@ -50,7 +51,7 @@ class TvShowFragment : Fragment() {
                 }
             })
 
-            with(fragmentTvShowBinding?.rvTvshow){
+            with(fragmentTvShowBinding?.rvTvshow) {
                 this?.layoutManager = LinearLayoutManager(context)
                 this?.adapter = tvShowAdapter
             }

@@ -6,8 +6,8 @@ import androidx.paging.PagedList
 import com.example.abdl.mymoviecatalogue.data.source.FilmRepository
 import com.example.abdl.mymoviecatalogue.data.source.local.entity.TvShowEntity
 
-class TvShowFavoriteViewModel(private val filmRepository: FilmRepository): ViewModel() {
-    fun getTvShowFavorited(): LiveData<PagedList<TvShowEntity>>{
+class TvShowFavoriteViewModel(private val filmRepository: FilmRepository) : ViewModel() {
+    fun getTvShowFavorited(): LiveData<PagedList<TvShowEntity>> {
         return filmRepository.getFavoritedTvshow()
     }
 }

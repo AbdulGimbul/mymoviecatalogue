@@ -11,21 +11,12 @@ import com.example.abdl.mymoviecatalogue.data.source.local.entity.TvShowEntity
 import com.example.abdl.mymoviecatalogue.databinding.ItemsTvshowBinding
 import com.example.abdl.mymoviecatalogue.ui.detail.DetailTvShowActivity
 
-class TvShowAdapter : PagedListAdapter<TvShowEntity, TvShowAdapter.TvShowViewHolder>(DIFF_CALLBACK) {
-    companion object{
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TvShowEntity>(){
-            override fun areItemsTheSame(oldItem: TvShowEntity, newItem: TvShowEntity): Boolean {
-                return oldItem.tvShowId == newItem.tvShowId
-            }
-
-            override fun areContentsTheSame(oldItem: TvShowEntity, newItem: TvShowEntity): Boolean {
-                return oldItem == newItem
-            }
-        }
-    }
+class TvShowAdapter :
+    PagedListAdapter<TvShowEntity, TvShowAdapter.TvShowViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TvShowViewHolder {
-        val itemsTvShowBinding = ItemsTvshowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val itemsTvShowBinding =
+            ItemsTvshowBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TvShowViewHolder(itemsTvShowBinding)
     }
 
@@ -38,9 +29,10 @@ class TvShowAdapter : PagedListAdapter<TvShowEntity, TvShowAdapter.TvShowViewHol
 
     fun getSwipedData(swipedPosition: Int): TvShowEntity? = getItem(swipedPosition)
 
-    class TvShowViewHolder(private val binding: ItemsTvshowBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind (tvshow: TvShowEntity){
-            with(binding){
+    class TvShowViewHolder(private val binding: ItemsTvshowBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(tvshow: TvShowEntity) {
+            with(binding) {
                 tvItemTitleTvshow.text = tvshow.title
                 tvItemCreator.text = tvshow.creator
                 itemView.setOnClickListener {
@@ -52,6 +44,18 @@ class TvShowAdapter : PagedListAdapter<TvShowEntity, TvShowAdapter.TvShowViewHol
                 Glide.with(itemView.context)
                     .load(tvshow.image)
                     .into(imgTvshow)
+            }
+        }
+    }
+
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<TvShowEntity>() {
+            override fun areItemsTheSame(oldItem: TvShowEntity, newItem: TvShowEntity): Boolean {
+                return oldItem.tvShowId == newItem.tvShowId
+            }
+
+            override fun areContentsTheSame(oldItem: TvShowEntity, newItem: TvShowEntity): Boolean {
+                return oldItem == newItem
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.example.abdl.mymoviecatalogue.ui.tvshow
+package com.example.abdl.mymoviecatalogue.ui.favorites.tvshow
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,6 @@ import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.example.abdl.mymoviecatalogue.data.source.FilmRepository
 import com.example.abdl.mymoviecatalogue.data.source.local.entity.TvShowEntity
-import com.example.abdl.mymoviecatalogue.vo.Resource
 import com.nhaarman.mockitokotlin2.verify
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -19,8 +18,8 @@ import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class TvShowViewModelTest {
-    private lateinit var viewModel: TvShowViewModel
+class TvShowFavoriteViewModelTest {
+    private lateinit var viewModel: TvShowFavoriteViewModel
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
@@ -29,30 +28,30 @@ class TvShowViewModelTest {
     private lateinit var filmRepository: FilmRepository
 
     @Mock
-    private lateinit var observer: Observer<Resource<PagedList<TvShowEntity>>>
+    private lateinit var observer: Observer<PagedList<TvShowEntity>>
 
     @Mock
     private lateinit var pagedList: PagedList<TvShowEntity>
 
     @Before
     fun setUp() {
-        viewModel = TvShowViewModel(filmRepository)
+        viewModel = TvShowFavoriteViewModel(filmRepository)
     }
 
     @Test
-    fun getTvShow() {
-        val dummyTvShow = Resource.success(pagedList)
-        `when`(dummyTvShow.data?.size).thenReturn(10)
-        val tvshow = MutableLiveData<Resource<PagedList<TvShowEntity>>>()
+    fun getTvShowFavorited() {
+        val dummyTvShow = pagedList
+        `when`(dummyTvShow.size).thenReturn(10)
+        val tvshow = MutableLiveData<PagedList<TvShowEntity>>()
         tvshow.value = dummyTvShow
 
-        `when`(filmRepository.getAllTvShows()).thenReturn(tvshow)
-        val tvshowEntities = viewModel.getTvShow().value?.data
-        verify(filmRepository).getAllTvShows()
+        `when`(filmRepository.getFavoritedTvshow()).thenReturn(tvshow)
+        val tvshowEntities = viewModel.getTvShowFavorited().value
+        verify(filmRepository).getFavoritedTvshow()
         assertNotNull(tvshowEntities)
         assertEquals(10, tvshowEntities?.size)
 
-        viewModel.getTvShow().observeForever(observer)
+        viewModel.getTvShowFavorited().observeForever(observer)
         verify(observer).onChanged(dummyTvShow)
     }
 }

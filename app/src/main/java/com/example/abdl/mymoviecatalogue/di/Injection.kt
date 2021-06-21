@@ -9,7 +9,7 @@ import com.example.abdl.mymoviecatalogue.utils.AppExecutors
 import com.example.abdl.mymoviecatalogue.utils.JsonHelper
 
 object Injection {
-    fun provideRepository(context: Context) : FilmRepository{
+    fun provideRepository(context: Context): FilmRepository {
 
         val database = MovieCatalogueDatabase.getInstance(context)
 

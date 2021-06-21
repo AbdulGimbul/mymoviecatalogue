@@ -17,15 +17,16 @@ class MoviesFavoriteFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        fragmentMoviesFavoriteBinding = FragmentMoviesFavoriteBinding.inflate(layoutInflater, container, false)
+        fragmentMoviesFavoriteBinding =
+            FragmentMoviesFavoriteBinding.inflate(layoutInflater, container, false)
         return fragmentMoviesFavoriteBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (activity != null){
+        if (activity != null) {
             val factory = ViewModelFactory.getInstance(requireActivity())
             val viewModel = ViewModelProvider(this, factory)[MoviesFavoriteViewModel::class.java]
 
@@ -37,7 +38,7 @@ class MoviesFavoriteFragment : Fragment() {
                 moviesAdapter.submitList(movies)
             })
 
-            with(fragmentMoviesFavoriteBinding.rvFavMovies){
+            with(fragmentMoviesFavoriteBinding.rvFavMovies) {
                 layoutManager = LinearLayoutManager(context)
                 this.adapter = moviesAdapter
             }

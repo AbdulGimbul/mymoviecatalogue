@@ -7,7 +7,7 @@ import com.example.abdl.mymoviecatalogue.data.source.remote.StatusResponse
 import com.example.abdl.mymoviecatalogue.utils.AppExecutors
 import com.example.abdl.mymoviecatalogue.vo.Resource
 
-abstract class NetworkBoundResource<ResultType,RequestType>(private val mExecutors: AppExecutors) {
+abstract class NetworkBoundResource<ResultType, RequestType>(private val mExecutors: AppExecutors) {
     private val result = MediatorLiveData<Resource<ResultType>>()
 
     init {
@@ -18,17 +18,17 @@ abstract class NetworkBoundResource<ResultType,RequestType>(private val mExecuto
 
         result.addSource(dbSource) { data ->
             result.removeSource(dbSource)
-            if (shouldFetch(data)){
+            if (shouldFetch(data)) {
                 fetchFromNetwork(dbSource)
             } else {
-                result.addSource(dbSource){ newData ->
+                result.addSource(dbSource) { newData ->
                     result.value = Resource.success(newData)
                 }
             }
         }
     }
 
-    protected fun onFetchFailed(){}
+    private fun onFetchFailed() {}
 
     protected abstract fun loadFromDB(): LiveData<ResultType>
 

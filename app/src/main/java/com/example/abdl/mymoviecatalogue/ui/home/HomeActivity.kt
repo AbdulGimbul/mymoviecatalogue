@@ -21,9 +21,11 @@ class HomeActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment)
 
-        val appBarConfiguration = AppBarConfiguration(setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
-        ))
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_movies, R.id.navigation_tvshow, R.id.navigation_favorites
+            )
+        )
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)

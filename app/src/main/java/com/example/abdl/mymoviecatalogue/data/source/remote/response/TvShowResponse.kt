@@ -1,6 +1,6 @@
 package com.example.abdl.mymoviecatalogue.data.source.remote.response
 
-data class TvShowResponse (
+data class TvShowResponse(
     var TvShowId: String,
     var title: String,
     var creator: String,

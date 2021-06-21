@@ -33,7 +33,7 @@ interface MovieCatalogueDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTvshow(tvshow: List<TvShowEntity>)
-    
+
     @Update
     fun updateMovies(movies: MoviesEntity)
 

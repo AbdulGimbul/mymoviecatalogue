@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.abdl.mymoviecatalogue.ui.favorites
 
 import android.content.Context
@@ -9,11 +11,8 @@ import com.example.abdl.mymoviecatalogue.R
 import com.example.abdl.mymoviecatalogue.ui.favorites.movies.MoviesFavoriteFragment
 import com.example.abdl.mymoviecatalogue.ui.favorites.tvshow.TvShowFavoriteFragment
 
-class SectionsPagerAdapter(private val mContext: Context, fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-    companion object{
-        @StringRes
-        private val TAB_TITLES = intArrayOf(R.string.movies, R.string.tv_show)
-    }
+class SectionsPagerAdapter(private val mContext: Context, fm: FragmentManager) :
+    FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
@@ -23,11 +22,16 @@ class SectionsPagerAdapter(private val mContext: Context, fm: FragmentManager) :
         }
     }
 
-    override fun getPageTitle(position: Int): CharSequence? {
+    override fun getPageTitle(position: Int): CharSequence {
         return mContext.resources.getString(TAB_TITLES[position])
     }
 
     override fun getCount(): Int {
         return 2
+    }
+
+    companion object {
+        @StringRes
+        private val TAB_TITLES = intArrayOf(R.string.movies, R.string.tv_show)
     }
 }

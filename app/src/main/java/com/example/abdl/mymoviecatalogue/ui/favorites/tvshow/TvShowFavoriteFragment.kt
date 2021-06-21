@@ -17,15 +17,16 @@ class TvShowFavoriteFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        fragmentTvShowFavoriteBinding = FragmentTvShowFavoriteBinding.inflate(layoutInflater, container, false)
+        fragmentTvShowFavoriteBinding =
+            FragmentTvShowFavoriteBinding.inflate(layoutInflater, container, false)
         return fragmentTvShowFavoriteBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (activity != null){
+        if (activity != null) {
             val factory = ViewModelFactory.getInstance(requireActivity())
             val viewModel = ViewModelProvider(this, factory)[TvShowFavoriteViewModel::class.java]
 
@@ -37,7 +38,7 @@ class TvShowFavoriteFragment : Fragment() {
                 tvShowAdapter.submitList(tvshow)
             })
 
-            with(fragmentTvShowFavoriteBinding.rvFavTvshow){
+            with(fragmentTvShowFavoriteBinding.rvFavTvshow) {
                 layoutManager = LinearLayoutManager(context)
                 this.adapter = tvShowAdapter
             }

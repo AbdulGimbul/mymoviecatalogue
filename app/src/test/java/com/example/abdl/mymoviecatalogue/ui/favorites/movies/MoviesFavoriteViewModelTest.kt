@@ -1,4 +1,4 @@
-package com.example.abdl.mymoviecatalogue.ui.movies
+package com.example.abdl.mymoviecatalogue.ui.favorites.movies
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,6 @@ import androidx.lifecycle.Observer
 import androidx.paging.PagedList
 import com.example.abdl.mymoviecatalogue.data.source.FilmRepository
 import com.example.abdl.mymoviecatalogue.data.source.local.entity.MoviesEntity
-import com.example.abdl.mymoviecatalogue.vo.Resource
 import com.nhaarman.mockitokotlin2.verify
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -19,40 +18,40 @@ import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
 
 @RunWith(MockitoJUnitRunner::class)
-class MoviesViewModelTest {
-    private lateinit var viewModel: MoviesViewModel
+class MoviesFavoriteViewModelTest {
+    private lateinit var viewModel: MoviesFavoriteViewModel
 
-    @get: Rule
+    @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Mock
     private lateinit var filmRepository: FilmRepository
 
     @Mock
-    private lateinit var observer: Observer<Resource<PagedList<MoviesEntity>>>
+    private lateinit var observer: Observer<PagedList<MoviesEntity>>
 
     @Mock
     private lateinit var pagedList: PagedList<MoviesEntity>
 
     @Before
     fun setUp() {
-        viewModel = MoviesViewModel(filmRepository)
+        viewModel = MoviesFavoriteViewModel(filmRepository)
     }
 
     @Test
-    fun getMovies() {
-        val dummyMovies = Resource.success(pagedList)
-        `when`(dummyMovies.data?.size).thenReturn(10)
-        val movies = MutableLiveData<Resource<PagedList<MoviesEntity>>>()
+    fun getMoviesFavorited() {
+        val dummyMovies = pagedList
+        `when`(dummyMovies.size).thenReturn(10)
+        val movies = MutableLiveData<PagedList<MoviesEntity>>()
         movies.value = dummyMovies
 
-        `when`(filmRepository.getAllMovies()).thenReturn(movies)
-        val movieEntities = viewModel.getMovies().value?.data
-        verify(filmRepository).getAllMovies()
+        `when`(filmRepository.getFavoritedMovies()).thenReturn(movies)
+        val movieEntities = viewModel.getMoviesFavorited().value
+        verify(filmRepository).getFavoritedMovies()
         assertNotNull(movieEntities)
         assertEquals(10, movieEntities?.size)
 
-        viewModel.getMovies().observeForever(observer)
+        viewModel.getMoviesFavorited().observeForever(observer)
         verify(observer).onChanged(dummyMovies)
     }
 }

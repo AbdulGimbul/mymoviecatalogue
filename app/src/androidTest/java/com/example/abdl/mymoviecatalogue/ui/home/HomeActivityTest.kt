@@ -51,17 +51,46 @@ class HomeActivityTest {
 
     @Test
     fun loadTvShow(){
-        onView(withText("TV Shows")).perform(click())
+        onView(withId(R.id.navigation_tvshow)).check(matches(isDisplayed())).perform(click())
         onView(withId(R.id.rv_tvshow)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_tvshow)).perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(dummyTvShow.size))
     }
+
     @Test
-    fun loadDetailTvShow(){
-        onView(withText("TV Shows")).perform(click())
-        onView(withId(R.id.rv_tvshow)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
+    fun loadDetailTvShow() {
+        onView(withId(R.id.navigation_tvshow)).check(matches(isDisplayed())).perform(click())
+        onView(withId(R.id.rv_tvshow)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0,
+                click()
+            )
+        )
         onView(withId(R.id.text_title_tvshow)).check(matches(isDisplayed()))
         onView(withId(R.id.text_title_tvshow)).check(matches(withText(dummyTvShow[0].title)))
         onView(withId(R.id.tv_creator)).check(matches(isDisplayed()))
         onView(withId(R.id.tv_creator)).check(matches(withText(dummyTvShow[0].creator)))
+    }
+
+    @Test
+    fun loadFavMovies() {
+        onView(withId(R.id.navigation_favorites)).check(matches(isDisplayed())).perform(click())
+        onView(withId(R.id.rv_fav_movies)).check(matches(isDisplayed()))
+        onView(withId(R.id.rv_fav_movies)).perform(
+            RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
+                dummyMovies.size
+            )
+        )
+    }
+
+    @Test
+    fun loadFavTvShow() {
+        onView(withId(R.id.navigation_favorites)).check(matches(isDisplayed())).perform(click())
+        onView(withText("TV Shows")).perform(click())
+        onView(withId(R.id.rv_fav_tvshow)).check(matches(isDisplayed()))
+        onView(withId(R.id.rv_fav_tvshow)).perform(
+            RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
+                dummyTvShow.size
+            )
+        )
     }
 }

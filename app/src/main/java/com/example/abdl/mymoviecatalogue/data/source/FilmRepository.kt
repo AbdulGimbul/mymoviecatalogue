@@ -17,19 +17,12 @@ import com.example.abdl.mymoviecatalogue.vo.Resource
 open class FilmRepository private constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
-    private val appExecutors: AppExecutors): FilmDataSource{
-    companion object{
-        @Volatile
-        private var instance: FilmRepository? = null
-
-        fun getInstance(remoteData: RemoteDataSource, localDataSource: LocalDataSource, appExecutors: AppExecutors): FilmRepository =
-            instance ?: synchronized(this){
-                instance ?: FilmRepository(remoteData, localDataSource, appExecutors).apply { instance = this }
-            }
-    }
+    private val appExecutors: AppExecutors
+) : FilmDataSource {
 
     override fun getAllMovies(): LiveData<Resource<PagedList<MoviesEntity>>> {
-        return object : NetworkBoundResource<PagedList<MoviesEntity>, List<MovieResponse>>(appExecutors){
+        return object :
+            NetworkBoundResource<PagedList<MoviesEntity>, List<MovieResponse>>(appExecutors) {
             public override fun loadFromDB(): LiveData<PagedList<MoviesEntity>> {
                 val config = PagedList.Config.Builder()
                     .setEnablePlaceholders(false)
@@ -49,14 +42,16 @@ open class FilmRepository private constructor(
 
             override fun saveCallResult(data: List<MovieResponse>) {
                 val movieList = ArrayList<MoviesEntity>()
-                for (response in data){
-                    val movie = MoviesEntity(response.movieId,
-                                response.title,
-                                response.director,
-                                response.genre,
-                                response.overview,
+                for (response in data) {
+                    val movie = MoviesEntity(
+                        response.movieId,
+                        response.title,
+                        response.director,
+                        response.genre,
+                        response.overview,
                         false,
-                                response.image)
+                        response.image
+                    )
                     movieList.add(movie)
                 }
 
@@ -66,7 +61,8 @@ open class FilmRepository private constructor(
     }
 
     override fun getAllTvShows(): LiveData<Resource<PagedList<TvShowEntity>>> {
-        return object : NetworkBoundResource<PagedList<TvShowEntity>, List<TvShowResponse>>(appExecutors){
+        return object :
+            NetworkBoundResource<PagedList<TvShowEntity>, List<TvShowResponse>>(appExecutors) {
             public override fun loadFromDB(): LiveData<PagedList<TvShowEntity>> {
                 val config = PagedList.Config.Builder()
                     .setEnablePlaceholders(false)
@@ -86,14 +82,16 @@ open class FilmRepository private constructor(
 
             override fun saveCallResult(data: List<TvShowResponse>) {
                 val tvshowList = ArrayList<TvShowEntity>()
-                for (response in data){
-                    val tvshow = TvShowEntity(response.TvShowId,
-                            response.title,
-                            response.creator,
-                            response.year,
-                            response.overview,
-                            false,
-                            response.image)
+                for (response in data) {
+                    val tvshow = TvShowEntity(
+                        response.TvShowId,
+                        response.title,
+                        response.creator,
+                        response.year,
+                        response.overview,
+                        false,
+                        response.image
+                    )
                     tvshowList.add(tvshow)
                 }
 
@@ -103,7 +101,7 @@ open class FilmRepository private constructor(
     }
 
     override fun getMoviesById(movieId: String): LiveData<Resource<MoviesEntity>> {
-        return object : NetworkBoundResource<MoviesEntity, List<MovieResponse>>(appExecutors){
+        return object : NetworkBoundResource<MoviesEntity, List<MovieResponse>>(appExecutors) {
             override fun loadFromDB(): LiveData<MoviesEntity> {
                 return localDataSource.getMovies(movieId)
             }
@@ -118,8 +116,9 @@ open class FilmRepository private constructor(
 
             override fun saveCallResult(data: List<MovieResponse>) {
                 val movieList = ArrayList<MoviesEntity>()
-                for (response in data){
-                    val movie = MoviesEntity(response.movieId,
+                for (response in data) {
+                    val movie = MoviesEntity(
+                        response.movieId,
                         response.title,
                         response.director,
                         response.genre,
@@ -137,7 +136,7 @@ open class FilmRepository private constructor(
     }
 
     override fun getTvShowById(tvshowId: String): LiveData<Resource<TvShowEntity>> {
-        return object : NetworkBoundResource<TvShowEntity, List<TvShowResponse>>(appExecutors){
+        return object : NetworkBoundResource<TvShowEntity, List<TvShowResponse>>(appExecutors) {
             override fun loadFromDB(): LiveData<TvShowEntity> {
                 return localDataSource.getTvShow(tvshowId)
             }
@@ -152,8 +151,9 @@ open class FilmRepository private constructor(
 
             override fun saveCallResult(data: List<TvShowResponse>) {
                 val tvshowList = ArrayList<TvShowEntity>()
-                for (response in data){
-                    val tvshow = TvShowEntity(response.TvShowId,
+                for (response in data) {
+                    val tvshow = TvShowEntity(
+                        response.TvShowId,
                         response.title,
                         response.creator,
                         response.year,
@@ -194,5 +194,23 @@ open class FilmRepository private constructor(
 
     override fun setFavoritedTvshow(tvshow: TvShowEntity, state: Boolean) {
         return appExecutors.diskIO().execute { localDataSource.setTvshowFavorite(tvshow, state) }
+    }
+
+    companion object {
+        @Volatile
+        private var instance: FilmRepository? = null
+
+        fun getInstance(
+            remoteData: RemoteDataSource,
+            localDataSource: LocalDataSource,
+            appExecutors: AppExecutors
+        ): FilmRepository =
+            instance ?: synchronized(this) {
+                instance ?: FilmRepository(
+                    remoteData,
+                    localDataSource,
+                    appExecutors
+                ).apply { instance = this }
+            }
     }
 }

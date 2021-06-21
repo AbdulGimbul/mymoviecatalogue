@@ -11,18 +11,8 @@ import com.example.abdl.mymoviecatalogue.ui.favorites.tvshow.TvShowFavoriteViewM
 import com.example.abdl.mymoviecatalogue.ui.movies.MoviesViewModel
 import com.example.abdl.mymoviecatalogue.ui.tvshow.TvShowViewModel
 
-class ViewModelFactory(private val mFilmRepository: FilmRepository): ViewModelProvider.NewInstanceFactory() {
-    companion object{
-        @Volatile
-        private var instance: ViewModelFactory? = null
-
-        fun getInstance(context: Context): ViewModelFactory =
-            instance ?: synchronized(this){
-                instance ?: ViewModelFactory(Injection.provideRepository(context)).apply {
-                    instance = this
-                }
-            }
-    }
+class ViewModelFactory(private val mFilmRepository: FilmRepository) :
+    ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -42,7 +32,19 @@ class ViewModelFactory(private val mFilmRepository: FilmRepository): ViewModelPr
             modelClass.isAssignableFrom(TvShowFavoriteViewModel::class.java) -> {
                 return TvShowFavoriteViewModel(mFilmRepository) as T
             }
-            else -> throw Throwable("Unknown viewModel class: "+modelClass.name)
+            else -> throw Throwable("Unknown viewModel class: " + modelClass.name)
         }
+    }
+
+    companion object {
+        @Volatile
+        private var instance: ViewModelFactory? = null
+
+        fun getInstance(context: Context): ViewModelFactory =
+            instance ?: synchronized(this) {
+                instance ?: ViewModelFactory(Injection.provideRepository(context)).apply {
+                    instance = this
+                }
+            }
     }
 }
